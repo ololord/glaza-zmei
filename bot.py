@@ -18,19 +18,21 @@ ladder = {
     7  : 'Epic',
     6  : 'Fantastic',
     5  : 'Superb',
-    4  : 'Great',
-    3  : 'Good',
-    2  : 'Fair',
-    1  : 'Average',
-    0  : 'Mediocre',
-    -1 : 'Poor',
-    -2 : 'Terrible'
+    4  : '-=НИЧОСИ! Критический УСПЕХ!=-',
+    3  : 'Неплохо',
+    2  : 'Норм',
+    1  : 'Так себе',
+    0  : 'Никак',
+    -1 : 'Плоховато',
+    -2 : 'Плохо',
+    -3 : 'Очень плохо...',
+    -4 : '%-АХАХАХАХАХА, КРИТИЧЕСКИЙ ПРОВАЛ!-%'
 }
 
 def get_ladder(result):
-    if result > 8:
+    if result > 4:
         return 'Beyond Legendary'
-    elif result < -2:
+    elif result < -4:
         return 'Terrible'
     else:
         return ladder[result]
@@ -156,7 +158,7 @@ async def process(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         if bool(re.match('^[0-9+*/ ()-]+$', result['total'])):
             result['total'] = eval(result['total'])
         else:
-            raise Exception('Request was not a valid equation!')
+            raise Exception('Одна ошибка и ты ошибся')
 
         if use_ladder:
             # Set if final result is positive or negative
@@ -174,7 +176,7 @@ async def process(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         error = ''
 
     except Exception as e:
-        response = f'@{username}: <b>Invalid equation!</b>\r\n'
+        response = f'@{username}: <b>Одна ошибка и ты ошибся</b>\r\n'
         if dice_num and dice_num > 1000:
             response += str(e) + '.\r\n'
         response += ('Please use <a href="https://en.wikipedia.org/wiki/Dice_notation">dice notation</a>.\r\n' +
@@ -221,9 +223,9 @@ def main() -> None:
     app = ApplicationBuilder().token(TOKEN).build()
 
     # on different commands - answer in Telegram
-    app.add_handler(CommandHandler(['roll','r'], process))
-    app.add_handler(CommandHandler('rf', rf))
-    app.add_handler(CommandHandler('help', help))
+    # app.add_handler(CommandHandler(['roll','r'], process))
+    # app.add_handler(CommandHandler('Кинуть кубы', rf))
+    # app.add_handler(CommandHandler('help', help))
 
     # on non command i.e message - echo the message on Telegram
     # application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
