@@ -224,7 +224,7 @@ def main() -> None:
 
     # on different commands - answer in Telegram
     # app.add_handler(CommandHandler(['roll','r'], process))
-    app.add_handler(CommandHandler('Кинуть кубы', rf))
+    app.add_handler(CommandHandler('rf', rf))
     # app.add_handler(CommandHandler('help', help))
 
     # on non command i.e message - echo the message on Telegram
